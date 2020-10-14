@@ -7,6 +7,9 @@ use Alura\Leilao\Service\Avaliador;
 
 require 'vendor/autoload.php';
 
+// prepara, arruma a casa para os testes
+// arrange - given
+
 // cria usuários
 $maria = new Usuario('Maria');
 $joao = new Usuario('João');
@@ -20,6 +23,21 @@ $leilao->recebeLance(new Lance($joao, 2400));
 
 // retorna avaliador
 $avaliador = new Avaliador();
+
+
+// executa o que se deseja testar
+// act - when
+
 $avaliador->avalia($leilao);
 
-echo $avaliador->getMaiorValor();
+
+// avalia-se o resultado
+// assert - then
+
+$valorEsperado = 2400;
+
+if ($valorEsperado == $avaliador->getMaiorValor()) {
+    echo "TESTES OK.";
+} else {
+    echo "TESTE FALHOU.";
+}
