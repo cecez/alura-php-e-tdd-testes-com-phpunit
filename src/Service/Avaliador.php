@@ -9,7 +9,7 @@ use Alura\Leilao\Model\Leilao;
 class Avaliador
 {
 
-    private $_maiorValor = -INF;
+    private int $_maiorValor = -INF;
 
     public function avalia(Leilao $leilao) : void
     {
