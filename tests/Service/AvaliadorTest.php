@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Alura\Leilao\Tests\Service;
-
 
 use Alura\Leilao\Model\Lance;
 use Alura\Leilao\Model\Leilao;
@@ -12,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class AvaliadorTest extends TestCase
 {
-
     public function testAvaliadorComLancesEmOrdemCrescente()
     {
         // prepara, arruma a casa para os testes
@@ -37,11 +34,9 @@ class AvaliadorTest extends TestCase
 
         $avaliador->avalia($leilao);
 
-
         // avalia-se o resultado
         // assert - then
         $this->assertEquals(2400, $avaliador->getMaiorValor());
-
     }
 
     public function testAvaliadorComLancesEmOrdemDecrescente()
@@ -68,12 +63,12 @@ class AvaliadorTest extends TestCase
 
         $avaliador->avalia($leilao);
 
-
         // avalia-se o resultado
         // assert - then
         $this->assertEquals(2400, $avaliador->getMaiorValor());
-
     }
+}
+
 
     public function testAvaliadorMenorValorComLancesEmOrdemCrescente()
     {
@@ -136,5 +131,5 @@ class AvaliadorTest extends TestCase
         $this->assertEquals(2000, $avaliador->getMenorValor());
 
     }
-    
+
 }

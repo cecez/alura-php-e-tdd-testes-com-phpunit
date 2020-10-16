@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Alura\Leilao\Service;
 
 
@@ -9,7 +8,6 @@ use Alura\Leilao\Model\Leilao;
 
 class Avaliador
 {
-
     private $_maiorValor = -INF;
     private $_menorValor = INF;
     private $_maioresLances;
