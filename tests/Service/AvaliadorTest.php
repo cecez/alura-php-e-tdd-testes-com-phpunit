@@ -67,8 +67,6 @@ class AvaliadorTest extends TestCase
         // assert - then
         $this->assertEquals(2400, $avaliador->getMaiorValor());
     }
-}
-
 
     public function testAvaliadorMenorValorComLancesEmOrdemCrescente()
     {
@@ -131,5 +129,4 @@ class AvaliadorTest extends TestCase
         $this->assertEquals(2000, $avaliador->getMenorValor());
 
     }
-
 }
