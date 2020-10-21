@@ -10,6 +10,12 @@ use PHPUnit\Framework\TestCase;
 
 class AvaliadorTest extends TestCase
 {
+    private $_leiloeiro;
+
+    protected function setUp(): void
+    {
+        $this->_leiloeiro = new Avaliador();
+    }
 
     /**
      * @dataProvider leilaoEmOrdemAleatoria
@@ -20,17 +26,14 @@ class AvaliadorTest extends TestCase
     public function testAvaliadorMaiorValor(Leilao $leilao)
     {
 
-        // retorna avaliador
-        $avaliador = new Avaliador();
-
         // executa o que se deseja testar
         // act - when
 
-        $avaliador->avalia($leilao);
+        $this->_leiloeiro->avalia($leilao);
 
         // avalia-se o resultado
         // assert - then
-        $this->assertEquals(2500, $avaliador->getMaiorValor());
+        $this->assertEquals(2500, $this->_leiloeiro->getMaiorValor());
     }
 
     /**
@@ -42,18 +45,15 @@ class AvaliadorTest extends TestCase
     public function testAvaliadorMenorValor(Leilao $leilao)
     {
 
-        // retorna avaliador
-        $avaliador = new Avaliador();
-
         // executa o que se deseja testar
         // act - when
 
-        $avaliador->avalia($leilao);
+        $this->_leiloeiro->avalia($leilao);
 
 
         // avalia-se o resultado
         // assert - then
-        $this->assertEquals(1700, $avaliador->getMenorValor());
+        $this->assertEquals(1700, $this->_leiloeiro->getMenorValor());
 
     }
 
@@ -66,13 +66,12 @@ class AvaliadorTest extends TestCase
     public function testAvaliador3MaioresLances(Leilao $leilao)
     {
 
-        $leiloeiro = new Avaliador();
-        $leiloeiro->avalia($leilao);
+        $this->_leiloeiro->avalia($leilao);
 
-        $this->assertCount(3, $leiloeiro->getMaioresLances());
-        $this->assertEquals(2500, $leiloeiro->getMaioresLances()[0]->getValor());
-        $this->assertEquals(2000, $leiloeiro->getMaioresLances()[1]->getValor());
-        $this->assertEquals(1700, $leiloeiro->getMaioresLances()[2]->getValor());
+        $this->assertCount(3, $this->_leiloeiro->getMaioresLances());
+        $this->assertEquals(2500, $this->_leiloeiro->getMaioresLances()[0]->getValor());
+        $this->assertEquals(2000, $this->_leiloeiro->getMaioresLances()[1]->getValor());
+        $this->assertEquals(1700, $this->_leiloeiro->getMaioresLances()[2]->getValor());
     }
 
     public function leilaoEmOrdemAleatoria()
