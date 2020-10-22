@@ -1,3 +1,7 @@
+Leilao (Alura\Tests\Model\Leilao)
+ [x] Lances with data set "2-lances"
+ [x] Lances with data set "1-lance"
+
 Avaliador (Alura\Leilao\Tests\Service\Avaliador)
  [x] Avaliador maior valor with data set "ordem-aleatória"
  [x] Avaliador maior valor with data set "ordem-crescente"
