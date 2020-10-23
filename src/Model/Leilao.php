@@ -17,6 +17,11 @@ class Leilao
 
     public function recebeLance(Lance $lance)
     {
+        // desconsidera lances consecutivos de um mesmo usuário
+        if (!empty($this->lances) && $this->ehLanceDoUltimoUsuario($lance)) {
+            return;
+        }
+
         $this->lances[] = $lance;
     }
 
@@ -26,5 +31,16 @@ class Leilao
     public function getLances(): array
     {
         return $this->lances;
+    }
+
+    /**
+     * @param  Lance  $lance
+     * @return bool
+     */
+    private function ehLanceDoUltimoUsuario(Lance $lance): bool
+    {
+        $ultimoUsuario = $this->lances[count($this->lances) - 1]->getUsuario();
+
+        return $lance->getUsuario() === $ultimoUsuario;
     }
 }

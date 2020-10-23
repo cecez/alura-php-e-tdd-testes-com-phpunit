@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Alura\Tests\Model;
+namespace Alura\Leilao\Tests\Model;
 
 
 use Alura\Leilao\Model\Lance;
@@ -12,6 +12,20 @@ use PHPUnit\Framework\TestCase;
 class LeilaoTest extends TestCase
 {
 
+    public function testLeilaoNaoDeveReceberLancesRepetidos()
+    {
+        $leilao = new Leilao('Mac mini 2020');
+
+        $ana = new Usuario('Ana');
+
+        $valorEsperado = 1000;
+        $leilao->recebeLance(new Lance($ana, $valorEsperado));
+        $leilao->recebeLance(new Lance($ana, 2000));
+
+        $this->assertCount(1, $leilao->getLances());
+        $this->assertEquals($valorEsperado, $leilao->getLances()[0]->getValor());
+    }
+    
     /**
      * @dataProvider geraLances
      *

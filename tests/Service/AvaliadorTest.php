@@ -90,7 +90,7 @@ class AvaliadorTest extends TestCase
         // cria lances
         $leilao->recebeLance(new Lance($joao, 2000));
         $leilao->recebeLance(new Lance($maria, 2500));
-        $leilao->recebeLance(new Lance($maria, 1700));
+        $leilao->recebeLance(new Lance($ana, 1700));
 
         return [
             'ordem-aleatória' => [$leilao]
