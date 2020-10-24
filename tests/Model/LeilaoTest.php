@@ -12,6 +12,31 @@ use PHPUnit\Framework\TestCase;
 class LeilaoTest extends TestCase
 {
 
+    public function testLeilaoNaoDeveReceberMaisDe5LancesPorUsuario()
+    {
+        $leilao = new Leilao('Mac Pro 2020');
+
+        $ana = new Usuario('Ana');
+        $bia = new Usuario('Bia');
+
+        $leilao->recebeLance(new Lance($ana, 1000));
+        $leilao->recebeLance(new Lance($bia, 1100));
+        $leilao->recebeLance(new Lance($ana, 2000));
+        $leilao->recebeLance(new Lance($bia, 2100));
+        $leilao->recebeLance(new Lance($ana, 3000));
+        $leilao->recebeLance(new Lance($bia, 3100));
+        $leilao->recebeLance(new Lance($ana, 4000));
+        $leilao->recebeLance(new Lance($bia, 4100));
+        $leilao->recebeLance(new Lance($ana, 5000));
+        $leilao->recebeLance(new Lance($bia, 5100));
+
+        $leilao->recebeLance(new Lance($ana, 6000));
+
+        $this->assertCount(10, $leilao->getLances());
+        $this->assertEquals(5100, $leilao->getLances()[array_key_last($leilao->getLances())]->getValor());
+
+    }
+
     public function testLeilaoNaoDeveReceberLancesRepetidos()
     {
         $leilao = new Leilao('Mac mini 2020');
