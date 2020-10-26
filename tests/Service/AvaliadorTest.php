@@ -74,7 +74,7 @@ class AvaliadorTest extends TestCase
         $this->assertEquals(1700, $this->_leiloeiro->getMaioresLances()[2]->getValor());
     }
 
-    public function testLeilaoVazio()
+    public function testLeilaoVazioNaoPodeSerAvaliado()
     {
         // espera receber uma exceção em específico
         $this->expectException(\DomainException::class);

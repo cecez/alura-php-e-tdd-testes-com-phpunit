@@ -19,14 +19,14 @@ class Leilao
     {
         // desconsidera lances consecutivos de um mesmo usuário
         if (!empty($this->lances) && $this->ehLanceDoUltimoUsuario($lance)) {
-            return;
+            throw new \DomainException('Usuário não pode dar 2 lances consecutivos.');
         }
 
         // desconsidera a partir do 6º lance de um usuário
         $quantidadeDeLancesDoUsuario = $this->quantidadeDeLancesDoUsuario($lance->getUsuario());
 
         if ($quantidadeDeLancesDoUsuario >= 5) {
-            return;
+            throw new \DomainException('Usuário não pode dar mais de 5 lances em um leilão.');
         }
 
         $this->lances[] = $lance;

@@ -14,5 +14,5 @@ Avaliador (Alura\Leilao\Tests\Service\Avaliador)
  [x] Avaliador 3 maiores lances with data set "ordem-aleatória"
  [x] Avaliador 3 maiores lances with data set "ordem-crescente"
  [x] Avaliador 3 maiores lances with data set "ordem-decrescente"
- [x] Leilao vazio
+ [x] Leilao vazio nao pode ser avaliado
 
