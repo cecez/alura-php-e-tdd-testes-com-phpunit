@@ -74,6 +74,16 @@ class AvaliadorTest extends TestCase
         $this->assertEquals(1700, $this->_leiloeiro->getMaioresLances()[2]->getValor());
     }
 
+    public function testLeilaoVazio()
+    {
+        // espera receber uma exceção em específico
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Não é possível avaliar um leilão sem lances.');
+
+        $leilao = new Leilao('iPhone 2020');
+        $this->_leiloeiro->avalia($leilao);
+    }
+
     public function leilaoEmOrdemAleatoria()
     {
         // prepara, arruma a casa para os testes
