@@ -36,6 +36,19 @@ class LeilaoTest extends TestCase
         $leilao->recebeLance(new Lance($ana, 6000));
     }
 
+    public function testLeilaoFinalizadoNaoPodeReceberLance()
+    {
+        // espera receber uma exceção em específico
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Não é possível dar lance em um leilão finalizado.');
+
+        $leilao = new Leilao('Carregador de pilha 2020');
+        $leilao->recebeLance(new Lance(new Usuario('Joaquim'), 10));
+        $leilao->finaliza();
+
+        $leilao->recebeLance(new Lance(new Usuario('Bruno'), 20));
+    }
+
     public function testLeilaoNaoDeveReceberLancesRepetidos()
     {
         $this->expectException(\DomainException::class);

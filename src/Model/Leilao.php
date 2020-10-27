@@ -8,15 +8,23 @@ class Leilao
     private $lances;
     /** @var string */
     private $descricao;
+    /** @var bool */
+    private $finalizado;
 
     public function __construct(string $descricao)
     {
-        $this->descricao = $descricao;
-        $this->lances = [];
+        $this->descricao    = $descricao;
+        $this->lances       = [];
+        $this->finalizado   = false;
     }
 
     public function recebeLance(Lance $lance)
     {
+
+        if ($this->estaFinalizado()) {
+            throw new \DomainException('Não é possível dar lance em um leilão finalizado.');
+        }
+
         // desconsidera lances consecutivos de um mesmo usuário
         if (!empty($this->lances) && $this->ehLanceDoUltimoUsuario($lance)) {
             throw new \DomainException('Usuário não pode dar 2 lances consecutivos.');
@@ -29,6 +37,8 @@ class Leilao
             throw new \DomainException('Usuário não pode dar mais de 5 lances em um leilão.');
         }
 
+        // TODO, lance tem que ser maior que o último lance
+
         $this->lances[] = $lance;
     }
 
@@ -38,6 +48,14 @@ class Leilao
     public function getLances(): array
     {
         return $this->lances;
+    }
+
+    /**
+     * Finaliza um leilão.
+     */
+    public function finaliza()
+    {
+        $this->finalizado = true;
     }
 
     /**
@@ -71,4 +89,11 @@ class Leilao
             0
         );
     }
+
+    public function estaFinalizado()
+    {
+        return $this->finalizado;
+    }
+
+
 }
