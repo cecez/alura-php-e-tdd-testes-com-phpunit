@@ -6,6 +6,7 @@ use Alura\Leilao\Model\Lance;
 use Alura\Leilao\Model\Leilao;
 use Alura\Leilao\Model\Usuario;
 use Alura\Leilao\Service\Avaliador;
+use DomainException;
 use PHPUnit\Framework\TestCase;
 
 class AvaliadorTest extends TestCase
@@ -18,9 +19,7 @@ class AvaliadorTest extends TestCase
     }
 
     /**
-     * @dataProvider leilaoEmOrdemAleatoria
      * @dataProvider leilaoEmOrdemCrescente
-     * @dataProvider leilaoEmOrdemDecrescente
      * @param  Leilao  $leilao
      */
     public function testAvaliadorMaiorValor(Leilao $leilao)
@@ -37,9 +36,7 @@ class AvaliadorTest extends TestCase
     }
 
     /**
-     * @dataProvider leilaoEmOrdemAleatoria
      * @dataProvider leilaoEmOrdemCrescente
-     * @dataProvider leilaoEmOrdemDecrescente
      * @param  Leilao  $leilao
      */
     public function testAvaliadorMenorValor(Leilao $leilao)
@@ -58,9 +55,7 @@ class AvaliadorTest extends TestCase
     }
 
     /**
-     * @dataProvider leilaoEmOrdemAleatoria
      * @dataProvider leilaoEmOrdemCrescente
-     * @dataProvider leilaoEmOrdemDecrescente
      * @param  Leilao  $leilao
      */
     public function testAvaliador3MaioresLances(Leilao $leilao)
@@ -77,7 +72,7 @@ class AvaliadorTest extends TestCase
     public function testLeilaoVazioNaoPodeSerAvaliado()
     {
         // espera receber uma exceção em específico
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Não é possível avaliar um leilão sem lances.');
 
         $leilao = new Leilao('iPhone 2020');
@@ -87,7 +82,7 @@ class AvaliadorTest extends TestCase
     public function testLeilaoFinalizadoNaoPodeSerAvaliado()
     {
         // espera receber uma exceção em específico
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Não é possível avaliar um leilão finalizado.');
 
         $leilao = new Leilao('Carregador de pilha 2020');
@@ -99,52 +94,6 @@ class AvaliadorTest extends TestCase
 
 
     // Data providers
-
-    public function leilaoEmOrdemAleatoria()
-    {
-        // prepara, arruma a casa para os testes
-        // arrange - given
-
-        // cria usuários
-        $maria = new Usuario('Maria');
-        $joao = new Usuario('João');
-        $ana = new Usuario('Ana');
-
-        // cria leilão
-        $leilao = new Leilao('Fiat 147 0km');
-
-        // cria lances
-        $leilao->recebeLance(new Lance($joao, 2000));
-        $leilao->recebeLance(new Lance($maria, 2500));
-        $leilao->recebeLance(new Lance($ana, 1700));
-
-        return [
-            'ordem-aleatória' => [$leilao]
-        ];
-    }
-
-    public function leilaoEmOrdemDecrescente()
-    {
-        // prepara, arruma a casa para os testes
-        // arrange - given
-
-        // cria usuários
-        $maria = new Usuario('Maria');
-        $joao = new Usuario('João');
-        $ana = new Usuario('Ana');
-
-        // cria leilão
-        $leilao = new Leilao('Fiat 147 0km');
-
-        // cria lances
-        $leilao->recebeLance(new Lance($maria, 2500));
-        $leilao->recebeLance(new Lance($joao, 2000));
-        $leilao->recebeLance(new Lance($maria, 1700));
-
-        return [
-            'ordem-decrescente' => [$leilao]
-        ];
-    }
 
     public function leilaoEmOrdemCrescente()
     {
@@ -162,7 +111,7 @@ class AvaliadorTest extends TestCase
         // cria lances
         $leilao->recebeLance(new Lance($maria, 1700));
         $leilao->recebeLance(new Lance($joao, 2000));
-        $leilao->recebeLance(new Lance($maria, 2500));
+        $leilao->recebeLance(new Lance($ana, 2500));
 
         return [
             'ordem-crescente' => [$leilao]

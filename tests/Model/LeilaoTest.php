@@ -7,6 +7,7 @@ namespace Alura\Leilao\Tests\Model;
 use Alura\Leilao\Model\Lance;
 use Alura\Leilao\Model\Leilao;
 use Alura\Leilao\Model\Usuario;
+use DomainException;
 use PHPUnit\Framework\TestCase;
 
 class LeilaoTest extends TestCase
@@ -14,7 +15,7 @@ class LeilaoTest extends TestCase
 
     public function testLeilaoNaoDeveReceberMaisDe5LancesPorUsuario()
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Usuário não pode dar mais de 5 lances em um leilão.');
 
         $leilao = new Leilao('Mac Pro 2020');
@@ -39,7 +40,7 @@ class LeilaoTest extends TestCase
     public function testLeilaoFinalizadoNaoPodeReceberLance()
     {
         // espera receber uma exceção em específico
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Não é possível dar lance em um leilão finalizado.');
 
         $leilao = new Leilao('Carregador de pilha 2020');
@@ -51,7 +52,7 @@ class LeilaoTest extends TestCase
 
     public function testLeilaoNaoDeveReceberLancesRepetidos()
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Usuário não pode dar 2 lances consecutivos.');
 
         $leilao = new Leilao('Mac mini 2020');
@@ -61,6 +62,36 @@ class LeilaoTest extends TestCase
         $valorEsperado = 1000;
         $leilao->recebeLance(new Lance($ana, $valorEsperado));
         $leilao->recebeLance(new Lance($ana, 2000));
+    }
+
+    public function testLeilaoNaoDeveReceberLanceIgual()
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Lance deve ser maior que último lance.');
+
+        $leilao = new Leilao('Maça 2020');
+
+        $ana = new Usuario('Ana');
+        $bia = new Usuario('Bia');
+
+        $leilao->recebeLance(new Lance($ana, 10));
+        $leilao->recebeLance(new Lance($bia, 10));
+
+    }
+
+    public function testLeilaoNaoDeveReceberLanceMenor()
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Lance deve ser maior que último lance.');
+
+        $leilao = new Leilao('Maça 2020');
+
+        $ana = new Usuario('Ana');
+        $bia = new Usuario('Bia');
+
+        $leilao->recebeLance(new Lance($ana, 10));
+        $leilao->recebeLance(new Lance($bia, 5));
+
     }
     
     /**

@@ -2,6 +2,8 @@
 
 namespace Alura\Leilao\Model;
 
+use DomainException;
+
 class Leilao
 {
     /** @var Lance[] */
@@ -22,22 +24,25 @@ class Leilao
     {
 
         if ($this->estaFinalizado()) {
-            throw new \DomainException('Não é possível dar lance em um leilão finalizado.');
+            throw new DomainException('Não é possível dar lance em um leilão finalizado.');
         }
 
         // desconsidera lances consecutivos de um mesmo usuário
         if (!empty($this->lances) && $this->ehLanceDoUltimoUsuario($lance)) {
-            throw new \DomainException('Usuário não pode dar 2 lances consecutivos.');
+            throw new DomainException('Usuário não pode dar 2 lances consecutivos.');
         }
 
         // desconsidera a partir do 6º lance de um usuário
         $quantidadeDeLancesDoUsuario = $this->quantidadeDeLancesDoUsuario($lance->getUsuario());
 
         if ($quantidadeDeLancesDoUsuario >= 5) {
-            throw new \DomainException('Usuário não pode dar mais de 5 lances em um leilão.');
+            throw new DomainException('Usuário não pode dar mais de 5 lances em um leilão.');
         }
 
-        // TODO, lance tem que ser maior que o último lance
+        // lance tem que ser maior que o último lance
+        if (!empty($this->lances) && !$this->ehMaiorQueUltimoLance($lance)) {
+            throw new DomainException('Lance deve ser maior que último lance.');
+        }
 
         $this->lances[] = $lance;
     }
@@ -93,6 +98,18 @@ class Leilao
     public function estaFinalizado()
     {
         return $this->finalizado;
+    }
+
+
+    private function ehMaiorQueUltimoLance(Lance $lance)
+    {
+        $valorDoUltimoLance = $this->lances[array_key_last($this->lances)]->getValor();
+
+        if ($lance->getValor() > $valorDoUltimoLance) {
+            return true;
+        }
+
+        return false;
     }
 
 
